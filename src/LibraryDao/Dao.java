@@ -8,8 +8,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import person.User;
 
 
 public class Dao implements Closeable
@@ -19,6 +22,7 @@ public class Dao implements Closeable
 	private PreparedStatement updateStatement;
 	private PreparedStatement deleteStatement;
 	private PreparedStatement selectStatement;
+	private PreparedStatement signinStatement;
 	
 	public Dao()throws Exception
 	{
@@ -27,7 +31,9 @@ public class Dao implements Closeable
 		this.updateStatement = connection.prepareStatement("UPDATE users SET price=? WHERE book_id=?");
 		this.deleteStatement = connection.prepareStatement("DELETE FROM BookTable WHERE book_id=?");
 		this.selectStatement = connection.prepareStatement("SELECT * FROM BookTable");
+		this.signinStatement = connection.prepareStatement("SELECT users_email, users_passwd from users");
 	}
+	
 	public int insert(Book book)throws Exception
 	{
 		this.insertStatement.setInt(1, book.getBookId());
